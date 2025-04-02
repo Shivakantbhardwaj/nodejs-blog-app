@@ -9,6 +9,12 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
+app.use(
+    cors({
+      origin: process.env.FRONTEND_URL || "http://localhost:3000", // Allow Vercel frontend
+      credentials: true,
+    })
+  );
 
 // Log to ensure that routes are being hit
 console.log("Server is running...");
@@ -23,6 +29,7 @@ console.log("Setting up routes...");
 // Use Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/blogs", blogRoutes);  // Should work
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
